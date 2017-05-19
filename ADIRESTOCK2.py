@@ -6,7 +6,7 @@ import tweepy
 import requests
 from requests.auth import HTTPProxyAuth
 
-global  link 
+ 
 #------------------------
 slackapikey = ('xoxb-168765462614-AF2fvGqqzsTorz0BTvzXaEYu')
 slack = Slacker(slackapikey)
@@ -55,8 +55,7 @@ def parsingjson():
 
         proxies = {"http": proxiez_us}
         auth = HTTPProxyAuth(proxyuser, proxypass)
-        
-        #print (proxies)
+        print (proxies)
 
         req = requests.Session()
         #requests.GET.getlist('url')
@@ -101,6 +100,7 @@ def parsingjson():
         #print (total)
         
         if total > 0:
+            
             print ("HURRAYYYY")
 
 
@@ -118,26 +118,32 @@ def parsingjson():
             sitemapurl = ('http://www.adidas.com/on/demandware.static/-/Sites-CustomerFileStore/default/adidas-US/en_US/sitemaps/product/adidas-US-en-us-product.xml')
             searchword = (sku)
             response = req.get(sitemapurl, headers=headers, proxies=proxies, auth=auth)
-            
-                                    
+
+            print (searchword)                       
         
             ya = (response.text)
             
-            token = BeautifulSoup(response.text, "lxml")
+            token = BeautifulSoup(ya, "lxml")
+            
             
             for option in token.find_all('loc', text=re.compile(searchword)):
-            
-                    
-                link = (option.text)
-                #print (link)
+                    global link
+                    link = (option.text)
+                    #print (link)
                 
-            #time.sleep(10)
+                    
+                    
+               
+
+         #time.sleep(10)
               
 
 
 
-
-            aco = req.get(link, headers=headerz, proxies=proxies, auth=auth)
+            try: 
+                aco = req.get(link, headers=headerz, proxies=proxies, auth=auth)
+            except:
+                continue
             soup = BeautifulSoup(aco.text, 'lxml')
             
             
@@ -155,8 +161,8 @@ def parsingjson():
 
             "RESTOCK:\n" +
             (brosd) + "\n" +
-            "PID: " + (sku) + "\n" +
             "Stock: " + (inttotal) + "\n" +
+            #"PID: " + (sku) + "\n" +
             "Link:\n" + 
             (link) + "\n" +
             ("-------------------------")
@@ -188,7 +194,6 @@ parsingjson()
 #find in general yes or no stock
 #convert pids from file to url  - fixed but needs improving! (currently random)
 #MAKE DIFF REGIONS
-
 
 
 
