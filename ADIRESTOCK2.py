@@ -6,7 +6,7 @@ import tweepy
 import requests
 from requests.auth import HTTPProxyAuth
 
-
+global  link 
 #------------------------
 slackapikey = ('xoxb-168765462614-AF2fvGqqzsTorz0BTvzXaEYu')
 slack = Slacker(slackapikey)
@@ -127,7 +127,7 @@ def parsingjson():
             
             for option in token.find_all('loc', text=re.compile(searchword)):
             
-                global  link     
+                    
                 link = (option.text)
                 #print (link)
                 
