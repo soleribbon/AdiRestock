@@ -78,12 +78,12 @@ def parsingjson():
         except:
             continue
 
-
+        
         #PARSES SIZE STOCK
-        product_size_stocks = {}
-        product_size_ids = {}
-        for item in json_data['variations']['variants']:
-                product_size_stocks[str(item['attributes']['size'])] = int(item['ATS'])
+        #product_size_stocks = {}
+        #product_size_ids = {}
+        #for item in json_data['variations']['variants']:
+                #product_size_stocks[str(item['attributes']['size'])] = int(item['ATS'])
 
         #PARSES TOTAL STOCK
         versions = json.loads(r.text)['variations']['variants']
