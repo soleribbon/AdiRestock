@@ -54,7 +54,7 @@ def parsingjson():
 
 
         proxies = {"http": proxiez_us}
-        auth = HTTPProxyAuth(proxyuser, proxypass)
+        #auth = HTTPProxyAuth(proxyuser, proxypass)
         print (proxies)
 
         req = requests.Session()
@@ -67,7 +67,7 @@ def parsingjson():
         base = ("http://www.{}/on/demandware.store/Sites-adidas-{}-Site/MLT/Product-GetVariants?pid={}").format(basesiteurl, locale, sku) #improve
             
         print (sku)
-        r = req.get(base, headers=headers, proxies=proxies, auth=auth)
+        r = req.get(base, headers=headers, proxies=proxies)
         
 
         try:
@@ -117,7 +117,7 @@ def parsingjson():
 
             sitemapurl = ('http://www.adidas.com/on/demandware.static/-/Sites-CustomerFileStore/default/adidas-US/en_US/sitemaps/product/adidas-US-en-us-product.xml')
             searchword = (sku)
-            response = req.get(sitemapurl, headers=headers, proxies=proxies, auth=auth)
+            response = req.get(sitemapurl, headers=headers, proxies=proxies)
 
             print (searchword)                       
         
@@ -141,7 +141,7 @@ def parsingjson():
 
 
             try: 
-                aco = req.get(link, headers=headerz, proxies=proxies, auth=auth)
+                aco = req.get(link, headers=headerz, proxies=proxies)
             except:
                 continue
             soup = BeautifulSoup(aco.text, 'lxml')
