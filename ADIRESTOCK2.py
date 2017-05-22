@@ -26,8 +26,8 @@ proxypass = "zoz"
 
 skus = open('pids.txt').read().splitlines()
 proxifile_us = open('usproxy.txt').read().splitlines()
-
-
+proxifile_uk = open('ukproxy.txt').read().splitlines()
+locales_file = open('locales.txt').read().splitlines()
 
 headers = {"User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36",
                 "Accept-Language" : "en-US,en;q=0.8"}
@@ -46,15 +46,29 @@ headers = {"User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleW
 def parsingjson():
     while True:
         time.sleep(6)  
-        basesiteurl = ("adidas.com")
-        locale = ("US")
         
-    
-        proxiez_us = random.choice(proxifile_us)
+        locales = random.choice(locales_file)
+        
+        if locales == "US":
 
-
-        proxies = {"http": proxiez_us}
+            basesiteurl = ("adidas.com")
+            locale = ("US")
+            proxiez_us = random.choice(proxifile_us)
+            proxies = {"http": proxiez_us}
+            sitemapurl = ('http://www.adidas.com/on/demandware.static/-/Sites-CustomerFileStore/default/adidas-US/en_US/sitemaps/product/adidas-US-en-us-product.xml')
+            print ("US")
+        
+        elif locales == "UK":
+            basesiteurl = ("adidas.co.uk")
+            locale = ("GB")
+            proxiez_uk = random.choice(proxifile_uk)
+            proxies = {"http": proxiez_uk}
+            sitemapurl = ("http://www.adidas.co.uk/on/demandware.static/-/Sites-CustomerFileStore/default/adidas-GB/en_GB/sitemaps/product/adidas-GB-en-gb-product.xml")
+            print ("UK")
+        
+        
         #auth = HTTPProxyAuth(proxyuser, proxypass)
+        
         print (proxies)
 
         req = requests.Session()
@@ -69,6 +83,7 @@ def parsingjson():
         print (sku)
         r = req.get(base, headers=headers, proxies=proxies)
         print (r.status_code)
+        
 
         try:
             json_data = (json.loads(r.text))
@@ -115,7 +130,7 @@ def parsingjson():
                         
 
 
-            sitemapurl = ('http://www.adidas.com/on/demandware.static/-/Sites-CustomerFileStore/default/adidas-US/en_US/sitemaps/product/adidas-US-en-us-product.xml')
+            
             searchword = (sku)
             response = req.get(sitemapurl, headers=headers, proxies=proxies)
 
@@ -134,8 +149,8 @@ def parsingjson():
                     
                     
                
-
-         #time.sleep(10)
+                
+            #time.sleep(10)
               
 
 
