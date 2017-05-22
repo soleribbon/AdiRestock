@@ -45,7 +45,7 @@ headers = {"User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleW
 
 def parsingjson():
     while True:
-        time.sleep(6)  
+        time.sleep(1)  
         
         locales = random.choice(locales_file)
         
