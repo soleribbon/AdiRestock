@@ -68,7 +68,7 @@ def parsingjson():
             
         print (sku)
         r = req.get(base, headers=headers, proxies=proxies)
-        
+        print (r.status_code)
 
         try:
             json_data = (json.loads(r.text))
