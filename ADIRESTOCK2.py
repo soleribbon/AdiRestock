@@ -5,7 +5,7 @@ from slacker import Slacker
 import tweepy
 import requests
 from requests.auth import HTTPProxyAuth
-
+from slackclient import SlackClient
  
 #------------------------
 slackapikey = ('xoxb-168765462614-AF2fvGqqzsTorz0BTvzXaEYu')
@@ -45,8 +45,8 @@ headers = {"User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleW
 
 def parsingjson():
     while True:
-        time.sleep(1)  
         
+        open('sizes.txt', 'w').close()
         locales = random.choice(locales_file)
         
         if locales == "US":
@@ -83,7 +83,6 @@ def parsingjson():
         print (sku)
         r = req.get(base, headers=headers, proxies=proxies)
         print (r.status_code)
-        
 
         try:
             json_data = (json.loads(r.text))
@@ -100,6 +99,7 @@ def parsingjson():
                 #product_size_stocks[str(item['attributes']['size'])] = int(item['ATS'])
 
         #PARSES TOTAL STOCK
+        
         versions = json.loads(r.text)['variations']['variants']
                     
         stock = {}
@@ -110,8 +110,15 @@ def parsingjson():
             total += int(stockCount)
             stockSizes = version["attributes"]["size"]
             stock[stockSizes] = stockCount
+            ayo = str(stockSizes)
+                #print str(stockSizes)
+            
+            with open('sizes.txt', 'a') as f:
+                f.write(ayo + "\n")
+                f.close()
             
         stock['total'] = total
+        strtotal = (str(total))
         #print (total)
         
         if total > 0:
@@ -134,7 +141,7 @@ def parsingjson():
             searchword = (sku)
             response = req.get(sitemapurl, headers=headers, proxies=proxies)
 
-            print (searchword)                       
+                                  
         
             ya = (response.text)
             
@@ -159,44 +166,102 @@ def parsingjson():
                 aco = req.get(link, headers=headerz, proxies=proxies)
             except:
                 continue
+            
             soup = BeautifulSoup(aco.text, 'lxml')
             
             
             titleofproduct = soup.title.string
             print (titleofproduct)
-
             brosd = str(titleofproduct)
-            inttotal = str(total)
+            
+
+
+
+            
+            soups = BeautifulSoup(aco.text, "lxml")
+
+
+            #EXTRACTS PICTURE
+            a = (soups.find('div', {'id': 'main-image'}))
+
+            productDivs = (soups.findAll('div', attrs={'id' : 'main-image'}))
+            for div in productDivs:
+                picture = div.find('a')['href']
+            #-----------------------------------
+
+
+            #GETS SIZE LIST
+
+            ending_size_list = open('sizes.txt').read().splitlines()
+            endingsizes = (", ".join(ending_size_list))
+            
+
+
+           
+                
+    
+
+            
+
+            attachments = [{
+                        "title": (titleofproduct),
+                        "color": "#9C1A22",
+                        "author_link": "https://twitter.com/soleadimon",
+                        "mrkdwn_in": ["text"],
+                        "fields": [{
+                                "title": "Available Sizes:",
+                                "value": "{}".format(endingsizes),
+                                "short": True
+                                
+                
+                            
+                            },
+                            {
+                                "title": "Total Stock:\n",
+                                "value": total,
+                                "short": True
+                                
+                            },
+                            
+                            
+                            {
+                                "title": "Link:",
+                                "value": (link),
+                                "short": False
+                            }
+                        
+                        ]
+            }]
 
 
 
 
 
-            slack.chat.post_message('#adimon', 
-
-            "RESTOCK:\n" +
-            (brosd) + "\n" +
-            "Stock: " + (inttotal) + "\n" +
-            #"PID: " + (sku) + "\n" +
-            "Link:\n" + 
-            (link) + "\n" +
-            ("-------------------------")
+            token = ("xoxp-128291386865-129057774181-142276982917-782873c11f4a369e32629df537e4a96a")
+                
+            slack_client = SlackClient(token)
+            slack_client.api_call("chat.postMessage", channel='adimon', text='', username="RESTOCK:", attachments=attachments, icon_url=picture)
 
 
 
-            )
+
+
+
+
+        
 
             #TWEETIINNG SSTUFFFFF
             
             try:
                 api.update_status("RESTOCK:\n" +
-                (brosd) + "\n" +
-                "Stock: " + (inttotal) + "\n" +
+                (sku) + "\n" +
+                "Stock: " + (strtotal) + "\n" +
                 "Link:\n" + 
                 (link) + "\n" +
                 ("-------------------------")
                 )
-            except:
+            except Exception as e:
+                print (e)
                 continue
             
         else:
@@ -209,7 +274,6 @@ parsingjson()
 #find in general yes or no stock
 #convert pids from file to url  - fixed but needs improving! (currently random)
 #MAKE DIFF REGIONS
-
 
 
 
