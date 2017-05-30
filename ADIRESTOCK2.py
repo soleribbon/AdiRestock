@@ -81,7 +81,11 @@ def parsingjson():
         base = ("http://www.{}/on/demandware.store/Sites-adidas-{}-Site/MLT/Product-GetVariants?pid={}").format(basesiteurl, locale, sku) #improve
             
         print (sku)
-        r = req.get(base, headers=headers, proxies=proxies)
+        try:
+            r = req.get(base, headers=headers, proxies=proxies)
+        except Exception as e:
+            print (e)
+            continue
         print (r.status_code)
 
         try:
