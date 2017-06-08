@@ -42,9 +42,11 @@ headers = {"User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleW
 
 
 
-
+yoyo = input()
 def parsingjson():
     while True:
+        if yoyo == "bro":
+            break
         #time.sleep(7)
         open('sizes.txt', 'w').close()
         locales = random.choice(locales_file)
