@@ -8,21 +8,21 @@ from requests.auth import HTTPProxyAuth
 from slackclient import SlackClient
  
 #------------------------
-slackapikey = ('xoxb-168765462614-AF2fvGqqzsTorz0BTvzXaEYu')
+slackapikey = ('')
 slack = Slacker(slackapikey)
 
-consumer_key = ("mTB5fHp7hQobiqiK3rD8YKn0j")
-consumer_secret = ("gDg7PyRGtgnbv6hNhMIrLPd5vHqx3Ld7DsndZK3KZccenocADx")
-access_token = ("865371714858885122-I4KeOb6QdiSeOToOGshLJwKF3s2Ye7i")
-access_token_secret = ("xGLpgfIGTUiRrgdNcCmojbWPtuRGEvSyh3b9f9eLeC65E")
+consumer_key = ("")
+consumer_secret = ("")
+access_token = ("")
+access_token_secret = ("")
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 #-------------------------
 
-proxyuser = "zoz"
-proxypass = "zoz"
+proxyuser = ""
+proxypass = ""
 
 skus = open('pids.txt').read().splitlines()
 proxifile_us = open('usproxy.txt').read().splitlines()
