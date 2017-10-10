@@ -241,10 +241,10 @@ def parsingjson():
 
 
 
-            token = ("xoxp-128291386865-129057774181-142276982917-782873c11f4a369e32629df537e4a96a")
+            token = ("")
                 
             slack_client = SlackClient(token)
-            slack_client.api_call("chat.postMessage", channel='adimon', text='', username="RESTOCK:", attachments=attachments, icon_url=picture)
+            slack_client.api_call("chat.postMessage", channel='insert channel', text='', username="RESTOCK:", attachments=attachments, icon_url=picture)
 
 
 
